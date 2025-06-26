@@ -29,6 +29,9 @@ import { validateRut } from '@fdograph/rut-utilities';
 import { UploadButton } from "@/utils/uploadthing";
 
 import { toast } from "sonner";
+import axios, { Axios, AxiosError } from "axios";
+import { useRouter } from 'next/navigation'
+
 
 
 const isValidRut = (rut: string): boolean => {
@@ -44,7 +47,7 @@ const formSchema = z.object({
     direccionEmpresa: z.string().min(2),
     regionEmpresa: z.string(),
     comunaEmpresa: z.string(),
-    telefono: z.string().min(6),
+    telefonoEmpresa: z.string().min(6),
     logoEmpresa: z.string(),
     superUserNick: z.string().min(4, {
         message: "El nombre de usuario debe contener al menos 4 caracteres.",
@@ -58,6 +61,7 @@ export function FormCrearEmpresa(props: FormCrearEmpresaProps) {
 
     const { setOpenModalCreate } = props;
     const [photoUploaded, setPhotouploaded] = useState(false);
+    const router = useRouter();
 
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
@@ -67,7 +71,7 @@ export function FormCrearEmpresa(props: FormCrearEmpresaProps) {
             direccionEmpresa: "",
             regionEmpresa: "",
             comunaEmpresa: "",
-            telefono: "",
+            telefonoEmpresa: "",
             logoEmpresa: "",
             superUserNick: "",
             superUserPass: ""
@@ -78,8 +82,35 @@ export function FormCrearEmpresa(props: FormCrearEmpresaProps) {
 
     // 2. Define a submit handler.
     const onSubmit = async (values: z.infer<typeof formSchema>) => {
-
-        console.log(values)
+     
+        try {
+            const response = await axios.post("/api/empresa", values)
+            console.log(response.data);
+             toast('Empresa Creada!');
+            router.refresh();
+            setOpenModalCreate(false);
+        } catch (error: any) {
+    if (axios.isAxiosError(error)) {
+      // Es un error de Axios
+      const axiosError = error as AxiosError;
+      toast(axiosError.message);
+      console.error('Error de Axios:', axiosError.message);
+      if (axiosError.response) {
+        // El servidor respondió con un código de estado diferente a 2xx
+        console.error('Datos de la respuesta:', axiosError.response.data);
+        console.error('Código de estado:', axiosError.response.status);
+      } else if (axiosError.request) {
+        // La solicitud fue realizada pero no se recibió respuesta
+        console.error('Solicitud:', axiosError.request);
+      } else {
+        // Algo sucedió al configurar la solicitud que desencadenó un Error
+        console.error('Error:', axiosError.message);
+      }
+    } else {
+      // Es un error que no es de Axios
+      console.error('Error desconocido:', error);
+    }
+  }
     }
 
     return (
@@ -187,7 +218,7 @@ export function FormCrearEmpresa(props: FormCrearEmpresaProps) {
 
                     <FormField
                         control={form.control}
-                        name="telefono"
+                        name="telefonoEmpresa"
                         render={({ field }) => (
                             <FormItem>
                                 <FormLabel>Fono</FormLabel>
