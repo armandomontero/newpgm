@@ -28,6 +28,8 @@ import {
   import { validateRut } from '@fdograph/rut-utilities';
 import { UploadButton } from "@/utils/uploadthing";
 
+import { toast } from "sonner";
+
 
   const isValidRut = (rut: string): boolean => {
     return isValidRut(rut);
@@ -184,7 +186,10 @@ export function FormCrearEmpresa(props: FormCrearEmpresaProps) {
                             <FormItem>
                                 <FormLabel>Logo</FormLabel>
                                 <FormControl>
-                                    
+                                    {photoUploaded?(
+                                        <p className="text-sn">Imagen Subida</p>
+                                    ):(
+                                
                                     <UploadButton className="bg-slate-600/20 text-slate-800 rounded-lg outline-dotted outline-3"
                                     endpoint="logoEmpresa"
                                     onClientUploadComplete={(res)=>{
@@ -192,10 +197,12 @@ export function FormCrearEmpresa(props: FormCrearEmpresaProps) {
                                         setPhotouploaded(true)
                                     }}
                                     onUploadError={(error:Error)=>{
-                                        alert(`ERROR! ${error.message}`);
+                                       toast("Error subiendo imagen")
                                     }}  
-                                    
+                                
                                />
+                               )
+                                }
                                 </FormControl>
 
                                 <FormMessage />
