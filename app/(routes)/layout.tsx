@@ -1,6 +1,7 @@
 "use client"
 import { Navbar } from "@/components/Navbar";
 import Sidebar from "../../components/Sidebar/Sidebar";
+import { Toaster } from "@/components/ui/sonner"
 
 
 export default function LayoutDashboard({children}:{children: React.ReactElement}){
@@ -13,6 +14,7 @@ export default function LayoutDashboard({children}:{children: React.ReactElement
             <Navbar/>
                 <div className="p-6 bg-[#fafbfc] dark:bg-secondary"></div>
                 {children}
+                <Toaster/>
                 </div>
         </div>
     )

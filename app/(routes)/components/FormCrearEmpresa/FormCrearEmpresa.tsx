@@ -43,7 +43,7 @@ const formSchema = z.object({
     }),
     direccionEmpresa: z.string().min(2),
     regionEmpresa: z.string(),
-    comunaEmpresa: z.number(),
+    comunaEmpresa: z.string(),
     telefono: z.string().min(6),
     logoEmpresa: z.string(),
 })
@@ -60,7 +60,7 @@ export function FormCrearEmpresa(props: FormCrearEmpresaProps) {
             nombreEmpresa: "",
             direccionEmpresa: "",
             regionEmpresa: "0",
-            comunaEmpresa: 0,
+            comunaEmpresa: "",
             telefono: "",
             logoEmpresa: ""
         },
@@ -194,6 +194,7 @@ export function FormCrearEmpresa(props: FormCrearEmpresaProps) {
                                     endpoint="logoEmpresa"
                                     onClientUploadComplete={(res)=>{
                                         form.setValue("logoEmpresa", res?.[0].url)
+                                        toast("Imagen subida con éxtito!");
                                         setPhotouploaded(true)
                                     }}
                                     onUploadError={(error:Error)=>{
@@ -210,7 +211,7 @@ export function FormCrearEmpresa(props: FormCrearEmpresaProps) {
                         )}
                     />
                 </div>
-                <Button type="submit">Guardar</Button>
+                <Button type="submit" disabled={!isValid}>Guardar</Button>
             </form>
         </Form>
     )
