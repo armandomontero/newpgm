@@ -1,0 +1,62 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "../lib/generated/prisma"
+}
+
+datasource db {
+  provider     = "mysql"
+  url          = env("DATABASE_URL")
+  relationMode = "prisma"
+}
+
+model Empresa {
+  idEmpresa        String     @id @default(uuid()) @db.VarChar(50)
+  rutEmpresa       Int
+  dvEmpresa        String     @db.VarChar(1)
+  superUserNick    String     @db.VarChar(255)
+  superUserPass    String     @db.VarChar(255)
+  nombreEmpresa    String     @db.VarChar(255)
+  direccionEmpresa String     @db.VarChar(255)
+  regionEmpresa    String     @db.VarChar(100)
+  comunaEmpresa    String     @db.VarChar(100)
+  telefonoEmpresa  String     @db.VarChar(100)
+  logoEmpresa      String     @db.VarChar(100)
+  contactos        Contacto[]
+  events           Event[]
+  createdAt        DateTime   @default(now())
+  updatedAt        DateTime   @updatedAt
+}
+
+model Contacto {
+  idContacto     String   @id @default(uuid())
+  fkEmpresa      String?  @db.VarChar(50)
+  nombreContacto String   @db.VarChar(100)
+  fonoContacto   String   @db.VarChar(100)
+  emailContacto  String   @db.VarChar(100)
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  empresa Empresa? @relation(fields: [fkEmpresa], references: [idEmpresa], onDelete: Cascade)
+
+  @@index([fkEmpresa])
+}
+
+model Event {
+  idEvent    String   @id @default(uuid())
+  fkEmpresa  String?  @db.VarChar(50)
+  title      String   @db.VarChar(100)
+  start      DateTime
+  allDay     Boolean
+  timeFormat String   @db.VarChar(100)
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+  empresa    Empresa? @relation(fields: [fkEmpresa], references: [idEmpresa])
+
+  @@index([fkEmpresa])
+}

@@ -23,21 +23,21 @@ import {
     SelectItem,
     SelectTrigger,
     SelectValue,
-  } from "@/components/ui/select";
+} from "@/components/ui/select";
 
-  import { validateRut } from '@fdograph/rut-utilities';
+import { validateRut } from '@fdograph/rut-utilities';
 import { UploadButton } from "@/utils/uploadthing";
 
 import { toast } from "sonner";
 
 
-  const isValidRut = (rut: string): boolean => {
+const isValidRut = (rut: string): boolean => {
     return isValidRut(rut);
-  };
+};
 const formSchema = z.object({
-    rutEmpresa : z.string().refine(validateRut, {
+    rutEmpresa: z.string().refine(validateRut, {
         message: 'RUT inválido',
-      }),
+    }),
     nombreEmpresa: z.string().min(2, {
         message: "El nombre de la empresa debe contener al menos 2 caracteres.",
     }),
@@ -46,6 +46,12 @@ const formSchema = z.object({
     comunaEmpresa: z.string(),
     telefono: z.string().min(6),
     logoEmpresa: z.string(),
+    superUserNick: z.string().min(4, {
+        message: "El nombre de usuario debe contener al menos 4 caracteres.",
+    }),
+    superUserPass: z.string().min(4, {
+        message: "La clave de usuario debe contener al menos 4 caracteres",
+    }),
 })
 
 export function FormCrearEmpresa(props: FormCrearEmpresaProps) {
@@ -59,10 +65,12 @@ export function FormCrearEmpresa(props: FormCrearEmpresaProps) {
             rutEmpresa: "",
             nombreEmpresa: "",
             direccionEmpresa: "",
-            regionEmpresa: "0",
+            regionEmpresa: "",
             comunaEmpresa: "",
             telefono: "",
-            logoEmpresa: ""
+            logoEmpresa: "",
+            superUserNick: "",
+            superUserPass: ""
         },
     })
 
@@ -79,7 +87,7 @@ export function FormCrearEmpresa(props: FormCrearEmpresaProps) {
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
                 <div className="grid grid-cols-2 gap-3">
 
-                <FormField
+                    <FormField
                         control={form.control}
                         name="rutEmpresa"
                         render={({ field }) => (
@@ -124,39 +132,52 @@ export function FormCrearEmpresa(props: FormCrearEmpresaProps) {
                         )}
                     />
 
-<FormField
+                    <FormField
                         control={form.control}
                         name="regionEmpresa"
                         render={({ field }) => (
                             <FormItem>
                                 <FormLabel>Region</FormLabel>
-                                <Select onValueChange={field.onChange} 
-                                defaultValue={field.value}
+                                <Select onValueChange={field.onChange}
+                                    defaultValue={field.value}
                                 >
-                                
-                                <FormControl>
-                                    <SelectTrigger>
-                                        <SelectValue placeholder="Selecciona Region"/>
-                                    </SelectTrigger>
-                                </FormControl>
-                                <SelectContent>
-                                    <SelectItem value="0">Región Metropolitana</SelectItem>
-                                    <SelectItem value="1">Región del Bio bio</SelectItem>
-                                </SelectContent>
+
+                                    <FormControl>
+                                        <SelectTrigger>
+                                            <SelectValue placeholder="Selecciona Region" />
+                                        </SelectTrigger>
+                                    </FormControl>
+                                    <SelectContent>
+                                        <SelectItem value="Región Metropolitana de Santiago">Región Metropolitana de Santiago</SelectItem>
+                                        <SelectItem value="Región de Arica y Parinacota">Región de Arica y Parinacota</SelectItem>
+                                        <SelectItem value="Región de Antofagasta">Región de Antofagasta</SelectItem>
+                                        <SelectItem value="Región de Atacama">Región de Atacama</SelectItem>
+                                        <SelectItem value="Región de Coquimbo">Región de Coquimbo</SelectItem>
+                                        <SelectItem value="Región de Valparaíso">Región de Valparaíso</SelectItem>
+                                        <SelectItem value="Región del Libertador General Bernardo O'Higgins">Región del Libertador General Bernardo O'Higgins</SelectItem>
+                                        <SelectItem value="Región del Maule">Región del Maule</SelectItem>
+                                        <SelectItem value="Región de Ñuble">Región de Ñuble</SelectItem>
+                                        <SelectItem value="Región del Biobío">Región del Biobío</SelectItem>
+                                        <SelectItem value="Región de la Araucanía">Región de la Araucanía</SelectItem>
+                                        <SelectItem value="Región de Los Ríos">Región de Los Ríos</SelectItem>
+                                        <SelectItem value="Región de Los Lagos">Región de Los Lagos</SelectItem>
+                                        <SelectItem value="Región de Aysén">Región de Aysén</SelectItem>
+                                        <SelectItem value="Región de Magallanes y la Antártica Chilena">Región de Magallanes y la Antártica Chilena</SelectItem>
+                                    </SelectContent>
                                 </Select>
                                 <FormMessage />
                             </FormItem>
                         )}
                     />
 
-<FormField
+                    <FormField
                         control={form.control}
                         name="comunaEmpresa"
                         render={({ field }) => (
                             <FormItem>
                                 <FormLabel>Comuna</FormLabel>
                                 <FormControl>
-                                    <Input placeholder="Ej. Calle, número, oficina" type="text" {...field} />
+                                    <Input placeholder="Ej. Santiago" type="text" {...field} />
                                 </FormControl>
 
                                 <FormMessage />
@@ -164,7 +185,7 @@ export function FormCrearEmpresa(props: FormCrearEmpresaProps) {
                         )}
                     />
 
-<FormField
+                    <FormField
                         control={form.control}
                         name="telefono"
                         render={({ field }) => (
@@ -181,29 +202,60 @@ export function FormCrearEmpresa(props: FormCrearEmpresaProps) {
 
 <FormField
                         control={form.control}
+                        name="superUserNick"
+                        render={({ field }) => (
+                            <FormItem>
+                                <FormLabel>Nombre Usuario (Nickname)</FormLabel>
+                                <FormControl>
+                                    <Input placeholder="Nickname" type="text" {...field} />
+                                </FormControl>
+
+                                <FormMessage />
+                            </FormItem>
+                        )}
+                    />
+
+                    <FormField
+                        control={form.control}
+                        name="superUserPass"
+                        render={({ field }) => (
+                            <FormItem>
+                                <FormLabel>Password</FormLabel>
+                                <FormControl>
+                                    <Input placeholder="Password" type="text" {...field} />
+                                </FormControl>
+
+                                <FormMessage />
+                            </FormItem>
+                        )}
+                    />
+
+
+                    <FormField
+                        control={form.control}
                         name="logoEmpresa"
                         render={({ field }) => (
                             <FormItem>
                                 <FormLabel>Logo</FormLabel>
                                 <FormControl>
-                                    {photoUploaded?(
+                                    {photoUploaded ? (
                                         <p className="text-sn">Imagen Subida</p>
-                                    ):(
-                                
-                                    <UploadButton className="bg-slate-600/20 text-slate-800 rounded-lg outline-dotted outline-3"
-                                    endpoint="logoEmpresa"
-                                    onClientUploadComplete={(res)=>{
-                                        form.setValue("logoEmpresa", res?.[0].url)
-                                        toast("Imagen subida con éxtito!");
-                                        setPhotouploaded(true)
-                                    }}
-                                    onUploadError={(error:Error)=>{
-                                       toast("Error subiendo imagen")
-                                    }}  
-                                
-                               />
-                               )
-                                }
+                                    ) : (
+
+                                        <UploadButton className="bg-slate-600/20 text-slate-800 rounded-lg outline-dotted outline-3"
+                                            endpoint="logoEmpresa"
+                                            onClientUploadComplete={(res) => {
+                                                form.setValue("logoEmpresa", res?.[0].url)
+                                                toast("Imagen subida con éxtito!");
+                                                setPhotouploaded(true)
+                                            }}
+                                            onUploadError={(error: Error) => {
+                                                toast("Error subiendo imagen")
+                                            }}
+
+                                        />
+                                    )
+                                    }
                                 </FormControl>
 
                                 <FormMessage />
