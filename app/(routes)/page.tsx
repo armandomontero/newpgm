@@ -3,6 +3,8 @@ import { UserButton } from "@clerk/nextjs";
 import { CardSummary } from "./components/CardSummary";
 
 import { BookOpenCheck, UsersRound, Waypoints } from "lucide-react";
+import { ListIntegrations } from "./components/ListIntegrations";
+import { UltimosClientes } from "./components/UltimosClientes";
 
 export default function Home() {
   return (
@@ -40,10 +42,11 @@ export default function Home() {
       </div>
 
       <div className=" grid grid-cols-1 xl:grid-cols-2 md:gap-x-10 mt-12">
-        <p>
-          Ultimos Clientes
-        </p>
+        <UltimosClientes/>
         <p>Distribuidores</p>
+
+
+        <ListIntegrations/>
       </div>
 
     </div>

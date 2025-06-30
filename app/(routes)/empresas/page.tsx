@@ -1,10 +1,11 @@
+import { ListEmpresas } from "../components/ListEmpresas";
 import HeaderEmpresas from "./components/HeaderEmpresa/HeaderEmpresas";
 
 export default function empresas(){
     return (
         <div>
            <HeaderEmpresas/>
-            <p>Lista de empresas</p>
+            <ListEmpresas/>
         </div>
     )
 }
