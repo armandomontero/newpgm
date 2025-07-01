@@ -40,6 +40,7 @@ export function DataTable<TData, TValue>({
     const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
         []
     )
+const [globalFilter, setGlobalFilter] = React.useState<any>([]);
 
     const [isMounted, setIsMounted] = React.useState(false)
 
@@ -56,9 +57,11 @@ export function DataTable<TData, TValue>({
         getSortedRowModel: getSortedRowModel(),
         onColumnFiltersChange: setColumnFilters,
         getFilteredRowModel: getFilteredRowModel(),
+        onGlobalFilterChange: setGlobalFilter,
         state: {
             sorting,
             columnFilters,
+            globalFilter
         },
     })
 
@@ -69,10 +72,8 @@ export function DataTable<TData, TValue>({
     return (
         <div className="p-4 bg-background shadow-md rounded-lg mt-4">
             <div className="flex items-center mb-2">
-                <Input placeholder="Buscar empresa" value={(table.getColumn("nombreEmpresa")?.getFilterValue() as string) ?? ""}
-                    onChange={(event) =>
-                        table.getColumn("nombreEmpresa")?.setFilterValue(event.target.value)
-                    } />
+                <Input placeholder="Buscar empresa" value={globalFilter ?? ''}
+  onChange={(e) => table.setGlobalFilter(String(e.target.value))} />
             </div>
 
             <div className="rounded-md border">
