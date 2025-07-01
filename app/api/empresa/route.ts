@@ -15,7 +15,7 @@ export async function POST(req:Request){
         
         const empresa = await db.empresa.create({
             data:{
-                
+                userId,
                 ...data,
             },
         })

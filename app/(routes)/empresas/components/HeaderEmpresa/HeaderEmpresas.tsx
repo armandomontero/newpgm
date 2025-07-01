@@ -1,6 +1,6 @@
 'use client';
 
-import { FormCrearEmpresa } from "@/app/(routes)/components/FormCrearEmpresa";
+import { FormCrearEmpresa } from "@/app/(routes)/empresas/components/FormCrearEmpresa";
 import { Button } from "@/components/ui/button";
 
 import {

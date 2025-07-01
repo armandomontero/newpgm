@@ -1,4 +1,4 @@
-import { ListEmpresas } from "../components/ListEmpresas";
+import { ListEmpresas } from "./components/ListEmpresas";
 import HeaderEmpresas from "./components/HeaderEmpresa/HeaderEmpresas";
 
 export default function empresas(){
