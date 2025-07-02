@@ -22,9 +22,11 @@ export const columns: ColumnDef<Empresa>[] = [
     header: "logoEmpresa",
     cell: ({ row }) => {
         const image = row.getValue("logoEmpresa")
+       
+        
       return (
         <div className="px-3">
-            <Image src={typeof image==='string'?image : "/images/empresa-icon.png"} width={40} height={40}
+            <Image  src={typeof image==='string'?image : "/images/empresa-icon.png"} width={20} height={20}
             alt="Image" className="h-auto w-auto" />
         </div>
         
