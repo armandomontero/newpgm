@@ -15,6 +15,7 @@ import {
 
 import Link from "next/link"
 import Image from "next/image"
+import { id } from "zod/v4/locales"
 
 export const columns: ColumnDef<Empresa>[] = [
   {
@@ -66,5 +67,33 @@ export const columns: ColumnDef<Empresa>[] = [
     {
     accessorKey: "telefonoEmpresa",
     header: "Fono"
+    },
+    {
+    id: "actions",
+    header: "Actions",
+    cell: ({ row }) => {
+        const id = row.original.idEmpresa
+       
+        
+      return (
+       <DropdownMenu>
+        <DropdownMenuTrigger>
+          <Button variant="ghost" className="w-8 h-4 p-0">
+            <span className="sr-only">Abrir Menu</span>
+            <MoreHorizontal className="w-4 h-4"/>
+          </Button>
+        </DropdownMenuTrigger>
+        <DropdownMenuContent align="end">
+          <Link href={`/empresas/${id}`}>
+            <DropdownMenuItem>
+              <Pencil className="w-4 h-4 mr-2"/>
+              Editar
+            </DropdownMenuItem>
+          </Link>
+        </DropdownMenuContent>
+        </DropdownMenu>
+        
+      )
+    },
     }
 ]
