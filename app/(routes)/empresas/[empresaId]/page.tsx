@@ -2,6 +2,10 @@ import {db} from "@/lib/db"
 import { auth } from "@clerk/nextjs"
 import { redirect } from "next/navigation"
 
+import { Header } from "./components/Header"
+import { EmpresaInformacion } from "./components/EmpresaInformacion"
+import { EmpresaFormulario } from "./components/EmpresaFormulario"
+
 export default async function empresaIdPage({params}: {params: {empresaId: string}}){
     //console.log(`jaja= ${params.empresaId}`)
 
@@ -20,12 +24,16 @@ export default async function empresaIdPage({params}: {params: {empresaId: strin
             
         }
     })
-console.log(empresa)
+//console.log(empresa)
     if(!empresa){
         return redirect("/");
     }
 
     return (
-        <div>Página s</div>
+        <div>
+            <Header/>
+           <EmpresaInformacion empresa={empresa}/>
+            
+        </div>
     )
 }

@@ -17,7 +17,7 @@ datasource db {
 
 model Empresa {
   idEmpresa        String     @id @default(uuid()) @db.VarChar(50)
-   userId            String @db.VarChar(255)
+  userId           String     @db.VarChar(255)
   rutEmpresa       String     @db.VarChar(12)
   superUserNick    String     @db.VarChar(255)
   superUserPass    String     @db.VarChar(255)
@@ -27,6 +27,7 @@ model Empresa {
   comunaEmpresa    String     @db.VarChar(100)
   telefonoEmpresa  String     @db.VarChar(100)
   logoEmpresa      String     @db.VarChar(100)
+  descripcionEmpresa  String @db.VarChar(255) @default("")
   contactos        Contacto[]
   events           Event[]
  
