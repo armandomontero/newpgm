@@ -285,7 +285,7 @@ export function EmpresaFormulario(props: EmpresaFormularioProps) {
                         )}
                     />
                 </div>
-                <Button type="submit" disabled={!isValid}>Guardar</Button>
+                <Button type="submit" disabled={!isValid}>Guardar Cambios</Button>
             </form>
         </Form>
 

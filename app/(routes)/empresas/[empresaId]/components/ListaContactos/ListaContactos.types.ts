@@ -1,5 +1,5 @@
 import { Empresa } from "@/lib/generated/prisma";
 
-export type EmpresaInformacionProps = {
+export type ListaContactosProps = {
     empresa: Empresa;
-} 
+}

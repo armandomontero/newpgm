@@ -2,6 +2,8 @@ import { EmpresaInformacionProps } from "./EmpresaInformacion.types";
 import Image from "next/image";
 import { User } from "lucide-react";
 import { EmpresaFormulario } from "../EmpresaFormulario";
+import { NuevoContacto } from "../NuevoContacto";
+import { ListaContactos } from "../ListaContactos";
 
 
 
@@ -24,11 +26,10 @@ export function EmpresaInformacion(props: EmpresaInformacionProps){
                         Contactos
                     </div>
                     <div>
-                        {/*Por hacer* nuevo contacto*/}
-<p>Nuevo contacto</p>
+                        <NuevoContacto/>
                     </div>
                 </div>
-                <p>Lista de contactos</p>
+               <ListaContactos empresa={empresa}/>
             </div>
         </div>
     )

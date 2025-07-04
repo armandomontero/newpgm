@@ -70,7 +70,7 @@ export const columns: ColumnDef<Empresa>[] = [
     },
     {
     id: "actions",
-    header: "Actions",
+    header: "Acciones",
     cell: ({ row }) => {
         const id = row.original.idEmpresa
        
@@ -85,7 +85,7 @@ export const columns: ColumnDef<Empresa>[] = [
         </DropdownMenuTrigger>
         <DropdownMenuContent align="end">
           <Link href={`/empresas/${id}`}>
-            <DropdownMenuItem>
+            <DropdownMenuItem className="cursor-pointer">
               <Pencil className="w-4 h-4 mr-2"/>
               Editar
             </DropdownMenuItem>
