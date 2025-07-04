@@ -41,8 +41,8 @@ export function EmpresaFormulario(props: EmpresaFormularioProps) {
             comunaEmpresa: empresa.comunaEmpresa,
             telefonoEmpresa: empresa.telefonoEmpresa,
             logoEmpresa: empresa.logoEmpresa,
-            superUserNick: empresa.superUserPass,
-            superUserPass: empresa.superUserNick,
+            superUserNick: empresa.superUserNick,
+            superUserPass: empresa.superUserPass,
             descripcionEmpresa: empresa.descripcionEmpresa,
 
         }

@@ -20,7 +20,7 @@ import { id } from "zod/v4/locales"
 export const columns: ColumnDef<Empresa>[] = [
   {
     accessorKey: "logoEmpresa",
-    header: "logoEmpresa",
+    header: "Logo",
     cell: ({ row }) => {
         const image = row.getValue("logoEmpresa")
        
