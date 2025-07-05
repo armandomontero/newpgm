@@ -19,7 +19,7 @@ export async function POST(req:Request){
                 ...data,
             },
         })
-        console.log(empresa);
+       // console.log(empresa);
         return NextResponse.json(empresa);
         
     } catch (error) {
@@ -27,3 +27,4 @@ export async function POST(req:Request){
         return new NextResponse("Error Interno", {status: 500}, )
     }
 }
+

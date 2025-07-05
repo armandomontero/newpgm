@@ -5,6 +5,7 @@ import { redirect } from "next/navigation"
 import { Header } from "./components/Header"
 import { EmpresaInformacion } from "./components/EmpresaInformacion"
 import { EmpresaFormulario } from "./components/EmpresaFormulario"
+import { FooterEmpresa } from "./components/FooterEmpresa"
 
 export default async function empresaIdPage({params}: {params: {empresaId: string}}){
     //console.log(`jaja= ${params.empresaId}`)
@@ -33,7 +34,7 @@ export default async function empresaIdPage({params}: {params: {empresaId: strin
         <div>
             <Header/>
            <EmpresaInformacion empresa={empresa}/>
-            
+            <FooterEmpresa empresaId={empresa.idEmpresa}/>
         </div>
     )
 }

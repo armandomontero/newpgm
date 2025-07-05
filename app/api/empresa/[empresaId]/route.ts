@@ -31,3 +31,27 @@ export async function PATCH(req:Request, { params }: { params: { empresaId: stri
         return new NextResponse("Error Interno", {status: 500}, )
     }
 }
+
+export async function DELETE(req: Request, {params}:{params: {empresaId : string}}) {
+    try {
+        const {userId} = auth();
+        const {empresaId} = params
+
+        if(!userId){
+             return new NextResponse("No autorizado", {status: 401})
+        }
+
+        const empresaBorrada = await db.empresa.delete({
+            where: {
+                idEmpresa : empresaId
+            }
+        })
+
+                return NextResponse.json(empresaBorrada);
+
+
+    } catch (error) {
+        console.log("[DELETE EMPRESA]", error);
+        return new NextResponse("Error Interno", {status: 500}, )
+    }
+}
