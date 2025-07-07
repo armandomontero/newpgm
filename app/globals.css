@@ -26,8 +26,17 @@ html, body :root{
   }
 }
 
+.calendar-container .fc .fc-button-primary{
+  background-color: #2563eb;
+}
 
+.calendar-container .fc .fc-button-primary:hover{
+  background-color: #3a72ec;
+}
 
+.calendar-container .fc .fc-button-primary:not(:disabled).fc-button-active{
+    background-color: #3a72ec;
+}
 
 @layer base {
   :root {
