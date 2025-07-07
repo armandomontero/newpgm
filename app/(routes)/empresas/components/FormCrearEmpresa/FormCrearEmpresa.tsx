@@ -223,7 +223,7 @@ export function FormCrearEmpresa(props: FormCrearEmpresaProps) {
                             <FormItem>
                                 <FormLabel>Fono</FormLabel>
                                 <FormControl>
-                                    <Input placeholder="Teléfono" type="text" {...field} />
+                                    <Input placeholder="Teléfono" value="+56 " type="text"  />
                                 </FormControl>
 
                                 <FormMessage />
