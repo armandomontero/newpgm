@@ -54,6 +54,7 @@ model Event {
   fkEmpresa  String?  @db.VarChar(50)
   title      String   @db.VarChar(100)
   start      DateTime
+  end        DateTime
   allDay     Boolean
   timeFormat String   @db.VarChar(100)
   createdAt  DateTime @default(now())

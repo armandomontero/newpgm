@@ -15,24 +15,26 @@ import esLocale from '@fullcalendar/core/locales/es';
 
 import axios from 'axios'
 
-import { formatDate } from '@/lib/formatDate'
+import { formatDate, formatHora } from '@/lib/formatDate'
 
 import { toast } from 'sonner'
 
 import { CalendarioProps } from "./Calendario.types";
-import { event } from 'jquery'
+import { data, event, now } from 'jquery'
 import { ModalAddEvent } from '../ModalAddEvent'
+import { title } from 'process'
+import { start } from 'repl'
 
 export function Calendario(props: CalendarioProps) {
     const { empresas, events } = props
 
     const router = useRouter();
     const [open, setOpen] = useState(false);
-    const [onSaveNewEvent, setonSaveNewEvent] = useState(false);
+    const [onSaveNewEvent, setOnSaveNewEvent] = useState(false);
 
     const [selectedItem, setselectedItem] = useState<DateSelectArg>();
 
-    const [newEvent, setnewEvent] = useState({
+    const [newEvent, setNewEvent] = useState({
         eventName: "",
         empresaSeleccionada: {
             name: "",
@@ -43,9 +45,56 @@ export function Calendario(props: CalendarioProps) {
     const handleDateClick = async (selected: DateSelectArg) => {
         setOpen(true)
         setselectedItem(selected)
+        //alert(selectedItem?.start)
+        
     }
-    const handleEventClick = () => {
 
+    useEffect(()=>{
+        if(onSaveNewEvent && selectedItem?.view.calendar){
+            const calendarApi = selectedItem.view.calendar
+            calendarApi.unselect()
+
+            const newEventPrisma = {
+                
+                title : newEvent.eventName,
+                start: new Date(selectedItem.start),
+                end: new Date(selectedItem.end),
+                allDay: false,
+                timeFormat: 'H(:mm)'
+            };
+           
+            
+            axios.post(`/api/empresa/${newEvent.empresaSeleccionada.id}/evento`, newEventPrisma)
+            .then(()=>{
+                toast('Evento Creado!');
+                router.refresh();
+            }).catch(error=>{
+                toast('Error al crear')
+            })
+           setNewEvent({
+            eventName: "",
+            empresaSeleccionada: {
+                name: "",
+                id: ""
+            }
+           })
+           setOnSaveNewEvent(false);
+        }
+    }, [onSaveNewEvent, selectedItem, event])
+
+
+    const handleEventClick = async (selected: any) => {
+        if(window.confirm(
+            `¿Estás seguro que deseas eliminar el evento ${selected.event.title}?`
+        )){
+            try {
+                await axios.delete(`/api/event/${selected.event._def.publicId}`);
+                toast('Evento eliminado!');
+                router.refresh();
+            } catch (error) {
+                toast('Algo salió mal')
+            }
+        }
     }
 
     return (
@@ -57,7 +106,8 @@ export function Calendario(props: CalendarioProps) {
                         {events.map((currentEvent) => (
                             <div key={currentEvent.idEvent} className='p-4 rounded-lg shadow-md mb-2 bg-slate-200 dark: bg-background'>
                                 <p className='font-bold'>{currentEvent.title}</p>
-                                <p>{formatDate(currentEvent.start)}</p>
+                                <p className='text-xs'>{formatDate(currentEvent.start)} - {formatHora(currentEvent.start)}</p>
+                                <p className='text-xs'>{formatDate(currentEvent.end)}- {formatHora(currentEvent.end)}</p>
                             </div>
                         )
                         )}
@@ -87,8 +137,13 @@ export function Calendario(props: CalendarioProps) {
                         weekends={true}
                         events={events}
                         eventContent={renderEventContent}
-                        editable={true}
+                        editable={false}
+                        eventTextColor="black"
+                        eventOverlap={false}
                         firstDay={1}
+                        eventDisplay='auto'
+                       eventMinHeight={5}
+                       displayEventTime={true}
                         slotDuration= '00:15'
                         slotLabelInterval= '01:00'
                         selectable={true}
@@ -101,9 +156,9 @@ export function Calendario(props: CalendarioProps) {
             <ModalAddEvent 
             open = {open}
             setOpen={setOpen}
-            setOnSaveNewEvent={setonSaveNewEvent}
+            setOnSaveNewEvent={setOnSaveNewEvent}
             empresas={empresas}
-            setNewEvent={setnewEvent}
+            setNewEvent={setNewEvent}
             />
 
         </div>
@@ -112,8 +167,9 @@ export function Calendario(props: CalendarioProps) {
 
 function renderEventContent(eventInfo: EventContentArg) {
     return (
-        <div className='bg-slate-200 dark: bg-background w-full p-1'>
-            <i>{eventInfo.event.title}</i>
+        <div className='bg-slate-200 dark: bg-background w-full pl-1 text-xs'>
+           
+            {eventInfo.event.title + ' ('+formatHora(eventInfo.event.start)+')'}
         </div>
     )
 }

@@ -1,5 +1,6 @@
 'use client'
 
+import { FormEvent } from "../FormEvent";
 import { ModalAddEventProps } from "./ModalAddEvent.types";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 
@@ -13,7 +14,12 @@ export function ModalAddEvent(props: ModalAddEventProps){
                 <DialogHeader>
                     <DialogTitle>Agregar nuevo evento</DialogTitle>
                 </DialogHeader>
-                <p>Formulario</p>
+                <FormEvent
+                 setOpen={setOpen}
+                 setOnSaveNewEvent={setOnSaveNewEvent}
+                 empresas={empresas}
+                 setNewEvent={setNewEvent}
+                />
             </DialogContent>
        </Dialog>
     )

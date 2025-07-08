@@ -7,6 +7,7 @@ import { Trash } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
 import { FooterEmpresaProps } from "./FooterEmpresa.types";
+import empresas from "../../../page";
 
 export function FooterEmpresa(props: FooterEmpresaProps){
 
@@ -14,6 +15,9 @@ export function FooterEmpresa(props: FooterEmpresaProps){
     const router = useRouter();
 
     const onDeleteEmpresa = async()=>{
+        if(window.confirm(
+                    `¿Estás seguro que deseas eliminar el registro?`
+                )){
         try {
             axios.delete(`/api/empresa/${empresaId}`);
             toast("Empresa Eliminada")
@@ -22,6 +26,7 @@ export function FooterEmpresa(props: FooterEmpresaProps){
             toast("Algo salió mal")
         }
     }
+}
 
     return (
         <div className="flex justify-end mt-5">
